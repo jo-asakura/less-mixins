@@ -1,7 +1,7 @@
 ﻿//------------------------
 // LESS Mixin collection
 // by Alexander Marinenko
-// v.1.2.0
+// v.1.2.1
 //------------------------
 //
 
@@ -271,7 +271,7 @@
 
 // Define link states
 // ----------------
-.link(@color: #0026ff, @textDecoration: none, @colorActive: #0094ff, @textDecorationActive: none, @colorVisited: #0094ff, @textDecorationVisited: none)
+.link(@color: #0026ff, @textDecoration: none, @colorActive: #0094ff, @textDecorationActive: none, @colorVisited: @color, @textDecorationVisited: @textDecoration)
 {
     color: @color;
     text-decoration: @textDecoration;
@@ -316,7 +316,7 @@
 
 // Placeholder text
 // -------------------------
-.placeholder(@color: '#aaa', @font-style: 'normal', @font-size: '1em')
+.placeholder(@color: #aaa, @font-style: normal, @font-size: 1em)
 {
     // keep the string values because we need to be able to handle '!important'
     // -------------------------
@@ -326,21 +326,18 @@
         font-size: ~'@{font-size}';
         font-style: ~'@{font-style}';
     }
-
     ::-moz-placeholder
     {
         color: ~'@{color}';
         font-size: ~'@{font-size}';
         font-style: ~'@{font-style}';
     }
-
     :-ms-input-placeholder
     {
         color: ~'@{color}';
         font-size: ~'@{font-size}';
         font-style: ~'@{font-style}';
     }
-
     input:-moz-placeholder
     {
         color: ~'@{color}';
@@ -916,43 +913,17 @@
     -o-animation: @value;
     -moz-animation: @value;
     animation: @value;
-
-    .keyframes(@selector, @name, @animation, @from, @to)
-    {
-        // newline to build output CSS
-        @newline: `"\n"`;
-        // define mixin to write desire animation's keyframes
-        .setVendor(@pre, @vendor)
-        {
-            (~"@{pre}@@{vendor}keyframes @{name} {@{newline}from")
-            {
-                .from(@from);
-            }
-
-            to
-            {
-                .to(@to);
-            }
-        }
-        // now call defined mixin to build animation's keyframes for all browsers
-        .setVendor("", "-moz-");
-        .setVendor(~"}@{newline}", "-webkit-");
-        .setVendor(~"}@{newline}", "-o-");
-        .setVendor(~"}@{newline}", "-ms-");
-        .setVendor(~"}@{newline}", "");
-        // write animation definition
-        (~"}@{newline}@{selector}")
-        {
-            .animation(@animation @name);
-        }
-    }
 }
 
 // Fonts
+//  Usage:
+//   .font-face('league_gothic-webfont', 'LeagueGothic');
+//   .font-face('fontawesome-webfont', 'FontAwesome');
+//   .font-face('entypo', 'entypo');
 // ----------------
 .font-face(@font, @family, @weight: normal, @style: normal, @path: '/font')
 {
-    (~"@font-face")
+    @font-face
     {
         font-family: ~'@{family}';
         src: url(~'@{path}/@{font}.eot');                                       /* IE9 Compat Modes */
@@ -964,11 +935,9 @@
         font-style: @style;
     }
 }
-//.font-face('league_gothic-webfont', 'LeagueGothic');
-//.font-face('fontawesome-webfont', 'FontAwesome');
-//.font-face('entypo', 'entypo');
 
 // Icons based on Entypo web-fonts
+//  Source: https://github.com/danielbruce/entypo
 // ----------------
 [class^="icon-"],
 [class*=" icon-"]
@@ -1276,9 +1245,8 @@
 .icon-db-shape:before { content: "\f600"; } /* '\f600' */
 .icon-logo-db:before { content: "\f603"; } /* '\f603' */
 
-// Global reset by Eric Meyer
-// http://meyerweb.com/eric/tools/css/reset/ 
-// v2.0 | 20110126
+// Global reset by Eric Meyer (v2.0 | 20110126)
+//  Source: http://meyerweb.com/eric/tools/css/reset/
 // -------------------------
 .global-reset()
 {
