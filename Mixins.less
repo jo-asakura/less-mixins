@@ -1,7 +1,7 @@
 ﻿//------------------------
 // LESS Mixin collection
 // by Alexander Marinenko
-// v.1.2.1
+// v.1.2.2
 //------------------------
 //
 
@@ -260,6 +260,14 @@
     }
 }
 
+// Font Smoothing
+// ----------------
+.font-smoothing()
+{
+    .text-shadow(1px 1px 1px rgba(0, 0, 0, 0.004));
+    -webkit-font-smoothing: antialiased;
+}
+
 // inline-block + IE7 fix
 // ----------------
 .display-inline(@importance: '')
@@ -326,19 +334,69 @@
         font-size: ~'@{font-size}';
         font-style: ~'@{font-style}';
     }
+
     ::-moz-placeholder
     {
         color: ~'@{color}';
         font-size: ~'@{font-size}';
         font-style: ~'@{font-style}';
     }
+
     :-ms-input-placeholder
     {
         color: ~'@{color}';
         font-size: ~'@{font-size}';
         font-style: ~'@{font-style}';
     }
+
     input:-moz-placeholder
+    {
+        color: ~'@{color}';
+        font-size: ~'@{font-size}';
+        font-style: ~'@{font-style}';
+    }
+    // set placeholder watermark style for IE8-9
+    .watermark
+    {
+        color: ~'@{color}';
+        font-size: ~'@{font-size}';
+        font-style: ~'@{font-style}';
+    }
+}
+
+.placeholderOnElement(@color: #aaa, @font-style: normal, @font-size: 1em)
+{
+    // keep the string values because we need to be able to handle '!important'
+    // -------------------------
+    &::-webkit-input-placeholder
+    {
+        color: ~'@{color}';
+        font-size: ~'@{font-size}';
+        font-style: ~'@{font-style}';
+    }
+
+    &::-moz-placeholder
+    {
+        color: ~'@{color}';
+        font-size: ~'@{font-size}';
+        font-style: ~'@{font-style}';
+    }
+
+    &:-ms-input-placeholder
+    {
+        color: ~'@{color}';
+        font-size: ~'@{font-size}';
+        font-style: ~'@{font-style}';
+    }
+
+    &:-moz-placeholder
+    {
+        color: ~'@{color}';
+        font-size: ~'@{font-size}';
+        font-style: ~'@{font-style}';
+    }
+    // set placeholder watermark style for IE8-9
+    &.watermark
     {
         color: ~'@{color}';
         font-size: ~'@{font-size}';
@@ -370,7 +428,7 @@
 .resizable(@direction: none)
 {
     resize: @direction; // Options: none, horizontal, vertical, both
-    overflow: auto; // Safari fix
+    //overflow: auto; // Safari fix
 }
 
 // Sizing shortcuts
@@ -387,7 +445,7 @@
 .circle(@size)
 {
     .border-radius(50%);
-    .size(@size, @size);
+    .square(@size);
 }
 .stretch(@top, @right, @bottom, @left)
 {
@@ -395,6 +453,19 @@
     left: @left;
     right: @right;
     top: @top;
+}
+
+// Spacing The Bottom of Block
+// ----------------
+.spacing-the-bottom(@marginBottom: 0, @paddingBottom: 0)
+{
+    & > *:last-child,
+    & > *:last-child > *:last-child,
+    & > *:last-child > *:last-child > *:last-child
+    {
+        margin-bottom: @marginBottom;
+        padding-bottom: @paddingBottom;
+    }
 }
 
 // Text overflow
@@ -414,16 +485,16 @@
     }
 }
 
-// Multiline text with ellipsis (Chrome only)
+// Multiline text overflow (Chrome only)
 // ----------------
-.text-overflow-ellipsis-multiline(@lines: 3, @orient: vertical)
+.text-overflow-multiline(@lines: 3, @orient: vertical, @type: ellipsis)
 {
-    .text-overflow(ellipsis);
+    .text-overflow(@type);
+    -webkit-line-clamp: @lines;
+    -webkit-box-orient: @orient;
     display: block;
     display: -webkit-box;
     overflow: hidden;
-    -webkit-line-clamp: @lines;
-    -webkit-box-orient: @orient;
 }
 
 // Text shadow
@@ -480,6 +551,8 @@
 @defaultLighten: 35%;
 .gradient()
 {
+    @defaultLighten: 35%;
+
     // Horizontal
     // ----------------
     .horizontal(@startColor, @endColor, @fallbackColor, @startPosition: left, @repeat: no-repeat)
@@ -492,8 +565,8 @@
         background-image: -ms-linear-gradient(@startPosition, @startColor 0, @endColor 100%);               // IE10
         background-image: -o-linear-gradient(@startPosition, @startColor 0, @endColor 100%);                // Opera 11.10
         background-image: linear-gradient(@startPosition, @startColor 0, @endColor 100%);                   // Default
-        -ms-filter: %("progid:DXImageTransform.Microsoft.gradient(startColorStr='%d', endColorStr='%d', GradientType=1))", @startColor, @endColor);
-        filter: e(%("progid:DXImageTransform.Microsoft.Gradient(startColorstr='%d', endColorstr='%d', GradientType=1)", @startColor, @endColor));
+        -ms-filter: %("progid:DXImageTransform.Microsoft.gradient(startColorStr='%d', endColorStr='%d', GradientType=1))", @startColor, @endColor); // IE8
+        filter: e(%("progid:DXImageTransform.Microsoft.Gradient(startColorstr='%d', endColorstr='%d', GradientType=1)", argb(@startColor), argb(@endColor)));   // IE9
     }
     .horizontal(@color: #0ae, @lighten: @defaultLighten)
     {
@@ -517,7 +590,7 @@
         background-image: -o-linear-gradient(@startPosition, @startColor 0, @endColor 100%);
         background-image: linear-gradient(@startPosition, @startColor 0, @endColor 100%);
         -ms-filter: %("progid:DXImageTransform.Microsoft.gradient(startColorStr='%d', endColorStr='%d', GradientType=0))", @startColor, @endColor);
-        filter: e(%("progid:DXImageTransform.Microsoft.Gradient(startColorstr='%d', endColorstr='%d', GradientType=0)", @startColor, @endColor));
+        filter: e(%("progid:DXImageTransform.Microsoft.Gradient(startColorstr='%d', endColorstr='%d', GradientType=0)", argb(@startColor), argb(@endColor)));
     }
     .vertical(@color: #0ae, @lighten: @defaultLighten)
     {
@@ -540,7 +613,7 @@
         background-image: -ms-linear-gradient(@startColor, @midColor @colorStop, @endColor);
         background-image: -o-linear-gradient(@startColor, @midColor @colorStop, @endColor);
         background-image: linear-gradient(@startColor, @midColor @colorStop, @endColor);
-        filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)", @startColor, @endColor));
+        filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)", argb(@startColor), argb(@endColor)));
     }
     .vertical3x(@color: #0ae)
     {
@@ -556,7 +629,7 @@
         background-image: -o-linear-gradient(top, @startColor @startPerc, @middleColor @middlePerc, @endColor @endPerc);
         background-image: -ms-linear-gradient(top, @startColor @startPerc, @middleColor @middlePerc, @endColor @endPerc);
         background-image: linear-gradient(top, @startColor @startPerc, @middleColor @middlePerc, @endColor @endPerc);
-        filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)", @startColor, @endColor));
+        filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)", argb(@startColor), argb(@endColor)));
     }
 
     // Directional
@@ -571,7 +644,7 @@
         background-image: -o-linear-gradient(~"@{angle}deg", @startColor 0, @endColor 100%);
         background-image: linear-gradient(~"@{angle}deg", @startColor 0, @endColor 100%);
         -ms-filter: %("progid:DXImageTransform.Microsoft.gradient(startColorStr='%d', endColorStr='%d', GradientType=0))", @startColor, @endColor);
-        filter: e(%("progid:DXImageTransform.Microsoft.Gradient(startColorstr='%d', endColorstr='%d', GradientType=0)", @startColor, @endColor));
+        filter: e(%("progid:DXImageTransform.Microsoft.Gradient(startColorstr='%d', endColorstr='%d', GradientType=0)", argb(@startColor), argb(@endColor)));
     }
     .directional(@color: #0ae, @lighten: @defaultLighten)
     {
@@ -951,11 +1024,14 @@
 
     &:before
     {
+        -webkit-font-smoothing: antialiased;
         display: inline-block;
         font-family: 'entypo';
         font-style: normal;
         margin-right: .1em;
+        speak: none;
         text-align: center;
+        text-transform: none;
         width: 1.1em;
     }
 }
