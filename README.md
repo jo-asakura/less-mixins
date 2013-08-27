@@ -12,6 +12,8 @@ LESS-Mixins collection requires original [LESS](http://lesscss.org) library to w
 
 You don't need to use any normalize libraries since LESS-Mixins includes both HTML4 and HTML5 resets.
 
+All the mixins are well-documented; therefore, go through the library and familiarize youself with it.
+
 ## Author
 
 **Alexander Marinenko**
