@@ -4,7 +4,7 @@ LESS-Mixins is a collection of LESS mixins and variables for quickly writing CSS
 
 ## Getting started
 
-Collection requires [LESS](http://lesscss.org). Navigate to their documentation and get familiar with the project. Once you're ready to start coding, include LESS-Misins library and have fun.
+LESS-Mixins collection requires original [LESS](http://lesscss.org) library to work. Navigate to official documentation and get familiar with the language. Once you're ready to start coding, include LESS-Misins collection and have fun.
 
 1. Create a new LESS file (e.g., styles.less);
 2. Include LESS-Mixins via `@import "Mixins.less";`;
@@ -16,8 +16,8 @@ You don't need to use any normalize libraries since LESS-Mixins includes both HT
 
 **Alexander Marinenko**
 
-+ [http://twitter.com/mdo](http://twitter.com/jo_asakura)
-+ [http://github.com/mdo](http://github.com/jo-asakura)
++ [http://twitter.com/jo_asakura](http://twitter.com/jo_asakura)
++ [http://github.com/jo-asakura](http://github.com/jo-asakura)
 
 ## Copyright and license
 
