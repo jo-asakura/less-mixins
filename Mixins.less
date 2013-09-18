@@ -1,7 +1,7 @@
 ﻿//------------------------
 // LESS Mixin collection
 // by Alexander Marinenko
-// v.1.2.2
+// v.1.2.3
 //------------------------
 //
 
@@ -257,6 +257,27 @@
             -ms-order: @value;
             order: @value;
         }
+    }
+}
+
+// Enhance scroll bars (Chrome only for now)
+// ----------------
+.enhance-scroll-bars(@width: 5px, @trackColor: #fefefe, @thumbColor: #ABA293, @thumbRadius: 4px)
+{
+    ::-webkit-scrollbar
+    {
+        width: @width;
+    }
+
+    ::-webkit-scrollbar-track
+    {
+        background: @trackColor;
+    }
+
+    ::-webkit-scrollbar-thumb
+    {
+        background: @thumbColor;
+        border-radius: @thumbRadius;
     }
 }
 
@@ -548,7 +569,6 @@
 
 // Gradients
 // ----------------
-@defaultLighten: 35%;
 .gradient()
 {
     @defaultLighten: 35%;
