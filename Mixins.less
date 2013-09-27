@@ -16,6 +16,16 @@
     top: @top;
 }
 
+// Animation
+// ----------------
+.animation(@value)
+{
+    -webkit-animation: @value;
+    -o-animation: @value;
+    -moz-animation: @value;
+    animation: @value;
+}
+
 // Appearance
 // ----------------
 .appearance(@value)
@@ -28,6 +38,15 @@
     {
         .appearance(none);
     }
+}
+
+// The backface-visibility property defines whether or not an element should be visible when not facing the screen
+// -------------------------
+.backface-visibility(@value: hidden)
+{
+    -webkit-backface-visibility: @value; // Chrome and Safari
+    -moz-backface-visibility: @value; // Firefox
+    backface-visibility: @value;
 }
 
 // Background clipping
@@ -69,10 +88,7 @@
 }
 .border-radius(@value1, @value2)
 {
-    -moz-border-radius: ~"@{value1}/@{value2}";
-    -webkit-border-radius: ~"@{value1}/@{value2}";
-    border-radius: ~"@{value1}/@{value2}";
-    .background-clip(padding-box);
+    .border-radius(~"@{value1}/@{value2}");
 }
 .border-top-radius(@value)
 {
@@ -117,29 +133,20 @@
 
 // Box shadow
 // ----------------
-.box-shadow(@value: 0 0 5px 0 rgba(0, 0, 0, .5))
+.box-shadow(...)
 {
-    -moz-box-shadow: @value;
-    -webkit-box-shadow: @value;
-    box-shadow: @value;
-}
-.box-shadow(@value1, @value2)
-{
-    -moz-box-shadow: @value1, @value2;
-    -webkit-box-shadow: @value1, @value2;
-    box-shadow: @value1, @value2;
-}
-.box-shadow(@value1, @value2, @value3)
-{
-    -moz-box-shadow: @value1, @value2, @value3;
-    -webkit-box-shadow: @value1, @value2, @value3;
-    box-shadow: @value1, @value2, @value3;
-}
-.box-shadow(@value1, @value2, @value3, @value4)
-{
-    -moz-box-shadow: @value1, @value2, @value3, @value4;
-    -webkit-box-shadow: @value1, @value2, @value3, @value4;
-    box-shadow: @value1, @value2, @value3, @value4;
+    @fnParseArgs:
+        ~`parseArgs = function (a, defaultValue) {
+            var arg = a.replace("[", "").replace("]", "") || defaultValue;
+            if (!/^#?\w*%?([ X])/.test(arg)) {
+                arg = arg.replace(/,(?=[^()]*\))/g, '--').replace(/,/g, "").replace(/--/g, ',');
+            }
+            return arg;
+        }`;
+
+    -moz-box-shadow: ~`parseArgs("@{arguments}", "none")`;
+    -webkit-box-shadow: ~`parseArgs("@{arguments}", "none")`;
+    box-shadow: ~`parseArgs("@{arguments}", "none")`;
 }
 
 // Box sizing
@@ -260,27 +267,6 @@
     }
 }
 
-// Enhance scroll bars (Chrome only for now)
-// ----------------
-.enhance-scroll-bars(@width: 5px, @trackColor: #fefefe, @thumbColor: #ABA293, @thumbRadius: 4px)
-{
-    ::-webkit-scrollbar
-    {
-        width: @width;
-    }
-
-    ::-webkit-scrollbar-track
-    {
-        background: @trackColor;
-    }
-
-    ::-webkit-scrollbar-thumb
-    {
-        background: @thumbColor;
-        border-radius: @thumbRadius;
-    }
-}
-
 // Font Smoothing
 // ----------------
 .font-smoothing()
@@ -347,81 +333,73 @@
 // -------------------------
 .placeholder(@color: #aaa, @font-style: normal, @font-size: 1em)
 {
+    .define(@color, @font-style, @font-size)
+    {
+        color: ~'@{color}';
+        font-size: ~'@{font-size}';
+        font-style: ~'@{font-style}';
+    }
+
     // keep the string values because we need to be able to handle '!important'
     // -------------------------
     ::-webkit-input-placeholder
     {
-        color: ~'@{color}';
-        font-size: ~'@{font-size}';
-        font-style: ~'@{font-style}';
+        .define(@color, @font-style, @font-size);
     }
-
     ::-moz-placeholder
     {
-        color: ~'@{color}';
-        font-size: ~'@{font-size}';
-        font-style: ~'@{font-style}';
+        .define(@color, @font-style, @font-size);
     }
-
     :-ms-input-placeholder
     {
-        color: ~'@{color}';
-        font-size: ~'@{font-size}';
-        font-style: ~'@{font-style}';
+        .define(@color, @font-style, @font-size);
     }
-
     input:-moz-placeholder
     {
-        color: ~'@{color}';
-        font-size: ~'@{font-size}';
-        font-style: ~'@{font-style}';
+        .define(@color, @font-style, @font-size);
     }
+
     // set placeholder watermark style for IE8-9
+    // -------------------------
     .watermark
     {
-        color: ~'@{color}';
-        font-size: ~'@{font-size}';
-        font-style: ~'@{font-style}';
+        .define(@color, @font-style, @font-size);
     }
 }
 
 .placeholderOnElement(@color: #aaa, @font-style: normal, @font-size: 1em)
 {
+    .define(@color, @font-style, @font-size)
+    {
+        color: ~'@{color}';
+        font-size: ~'@{font-size}';
+        font-style: ~'@{font-style}';
+    }
+
     // keep the string values because we need to be able to handle '!important'
     // -------------------------
     &::-webkit-input-placeholder
     {
-        color: ~'@{color}';
-        font-size: ~'@{font-size}';
-        font-style: ~'@{font-style}';
+        .define(@color, @font-style, @font-size);
     }
-
     &::-moz-placeholder
     {
-        color: ~'@{color}';
-        font-size: ~'@{font-size}';
-        font-style: ~'@{font-style}';
+        .define(@color, @font-style, @font-size);
     }
-
     &:-ms-input-placeholder
     {
-        color: ~'@{color}';
-        font-size: ~'@{font-size}';
-        font-style: ~'@{font-style}';
+        .define(@color, @font-style, @font-size);
     }
-
     &:-moz-placeholder
     {
-        color: ~'@{color}';
-        font-size: ~'@{font-size}';
-        font-style: ~'@{font-style}';
+        .define(@color, @font-style, @font-size);
     }
+
     // set placeholder watermark style for IE8-9
+    // -------------------------
     &.watermark
     {
-        color: ~'@{color}';
-        font-size: ~'@{font-size}';
-        font-style: ~'@{font-style}';
+        .define(@color, @font-style, @font-size);
     }
 }
 
@@ -450,6 +428,39 @@
 {
     resize: @direction; // Options: none, horizontal, vertical, both
     //overflow: auto; // Safari fix
+}
+
+// Scroll bars
+// ----------------
+.scroll-bars
+{
+    // Auto hiding scroll bars (IE10 only)
+    // ----------------
+    .auto-hide()
+    {
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+    }
+
+    // Enhance scroll bars (Chrome only)
+    // ----------------
+    .enhance(@width: 5px, @trackColor: #fefefe, @thumbColor: #ABA293, @thumbRadius: 4px)
+    {
+        ::-webkit-scrollbar
+        {
+            width: @width;
+        }
+
+        ::-webkit-scrollbar-track
+        {
+            background: @trackColor;
+        }
+
+        ::-webkit-scrollbar-thumb
+        {
+            background: @thumbColor;
+            border-radius: @thumbRadius;
+        }
+    }
 }
 
 // Sizing shortcuts
@@ -520,15 +531,19 @@
 
 // Text shadow
 // ----------------
-.text-shadow(@value)
+.text-shadow(...)
 {
-    -webkit-text-shadow: @value;
-    text-shadow: @value;
-}
-.text-shadow(@value1, @value2)
-{
-    -webkit-text-shadow: @value1, @value2;
-    text-shadow: @value1, @value2;
+    @fnParseArgs:
+        ~`parseArgs = function (a, defaultValue) {
+            var arg = a.replace("[", "").replace("]", "") || defaultValue;
+            if (!/^#?\w*%?([ X])/.test(arg)) {
+                arg = arg.replace(/,(?=[^()]*\))/g, '--').replace(/,/g, "").replace(/--/g, ',');
+            }
+            return arg;
+        }`;
+
+    -webkit-text-shadow: ~`parseArgs("@{arguments}", "none")`;
+    text-shadow: ~`parseArgs("@{arguments}", "none")`;
 }
 
 // Transitions
@@ -569,10 +584,9 @@
 
 // Gradients
 // ----------------
+@defaultLighten: 35%;
 .gradient()
 {
-    @defaultLighten: 35%;
-
     // Horizontal
     // ----------------
     .horizontal(@startColor, @endColor, @fallbackColor, @startPosition: left, @repeat: no-repeat)
@@ -859,24 +873,15 @@
     }
 }
 
-// The backface-visibility property defines whether or not an element should be visible when not facing the screen.
-// -------------------------
-.backface-visibility(@value: hidden)
-{
-    -webkit-backface-visibility: @value; // Chrome and Safari
-    -moz-backface-visibility: @value; // Firefox
-    backface-visibility: @value;
-}
-
 // Transformations
 // ----------------
 .transform(@value)
 {
-    -webkit-transform:@value;
-    -moz-transform:@value;
-    -ms-transform:@value;
-    -o-transform:@value;
-    transform:@value;
+    -webkit-transform: @value;
+    -moz-transform: @value;
+    -ms-transform: @value;
+    -o-transform: @value;
+    transform: @value;
 
     // Specifies how nested elements are rendered in 3D space
     // -------------------------
@@ -910,35 +915,35 @@
     // -------------------------
     .rotate(@deg:35)
     {
-        .transform(~"rotate(@{deg}deg)");
+        .transform(rotate(~"@{deg}deg"));
     }
 
     // Defines a 3D rotation along the X-axis 
     // -------------------------
     .rotateX(@deg:35)
     {
-        .transform(~"rotateX(@{deg}deg)");
+        .transform(rotateX(~"@{deg}deg"));
     }
 
     // Defines a 3D rotation along the Y-axis 
     // -------------------------
     .rotateY(@deg:35)
     {
-        .transform(~"rotateY(@{deg}deg)");
+        .transform(rotateY(~"@{deg}deg"));
     }
 
     // Defines a 3D rotation along the Z-axis 
     // -------------------------
     .rotateZ(@deg:35)
     {
-        .transform(~"rotateZ(@{deg}deg)");
+        .transform(rotateZ(~"@{deg}deg"));
     }
 
     // Defines a 3D rotation
     // -------------------------
     .rotate3D(@x:1, @y:1, @z:1, @deg:35)
     {
-        .transform(~"rotate3d(@{x}, @{y}, @{z}, @{deg}deg)");
+        .transform(rotate3d(@x, @y, @z, ~"@{deg}deg"));
     }
 
     // Defines a 2D scale transformation 
@@ -959,7 +964,7 @@
     // -------------------------
     .skew(@angleX:35, @angleY:35)
     {
-        .transform(~"skew(@{angleX}, @{angleY})");
+        .transform(skew(~"@{angleX}deg", ~"@{angleY}deg"));
     }
 
     // Defines a 2D translation 
@@ -996,16 +1001,6 @@
     {
         .transform(translateZ(@z));
     }
-}
-
-// Animation
-// ----------------
-.animation(@value)
-{
-    -webkit-animation: @value;
-    -o-animation: @value;
-    -moz-animation: @value;
-    animation: @value;
 }
 
 // Fonts
