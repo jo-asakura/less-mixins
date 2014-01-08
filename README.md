@@ -1,6 +1,6 @@
 # LESS-Mixins
 
-LESS-Mixins is a collection of LESS mixins and variables for quickly writing CSS. It serves as a lightweight and interface agnostic approach to jumpstarting your next web project. Use it how you see fit.
+LESS-Mixins is a [collection](mixins.less) of LESS mixins and variables for quickly writing CSS. It serves as a lightweight and interface agnostic approach to jumpstarting your next web project. Use it how you see fit.
 
 ## Getting started
 
@@ -13,6 +13,13 @@ LESS-Mixins collection requires original [LESS](http://lesscss.org) library to w
 You don't need to use any normalize libraries since LESS-Mixins includes both HTML4 and HTML5 resets.
 
 All the mixins are well-documented; therefore, go through the library and familiarize youself with it.
+
+## Additinal libraries
+
+I've also uploaded some useful LESS collections besides mixins:
+
+- [Flat UI colors](flat-ui-colors.less) is a collection of FlatUI variables for you to use;
+- [Media Queries/Responsive Design](media.less) starting point, so you can start developing on a prebuilt scaffolding.
 
 ## Author
 
