@@ -45,7 +45,7 @@ canvas
 
 // Following part is just an responsive design indicator, it's realyl useful while debugging
 // -------------------------
-.add-media-meta(@ruleName, @indicatorColor)
+.add-media-meta(@ruleName, @shortcut)
 {
     &:after
     {
@@ -55,8 +55,7 @@ canvas
 
     &:not(.prod):before
     {
-        background: @indicatorColor;
-        content: '';
+        content: @shortcut;
         height: 10px;
         left: 0;
         position: fixed;
@@ -71,7 +70,7 @@ canvas
 {
     body
     {
-        .add-media-meta('desktop', black);
+        .add-media-meta('desktop', 'D');
     }
 }
 
@@ -80,7 +79,7 @@ canvas
 {
     body
     {
-        .add-media-meta('tablet', green);
+        .add-media-meta('tablet', 'T');
     }
 }
 
@@ -89,7 +88,7 @@ canvas
 {
     body
     {
-        .add-media-meta('mobileLandscape', blue);
+        .add-media-meta('mobileLandscape', 'ML');
     }
 }
 
@@ -98,6 +97,6 @@ canvas
 {
     body
     {
-        .add-media-meta('mobilePortrait', red);
+        .add-media-meta('mobilePortrait', 'MP');
     }
 }
