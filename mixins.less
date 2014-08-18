@@ -885,21 +885,21 @@
         .transform(rotate(~"@{deg}deg"));
     }
 
-    // Defines a 3D rotation along the X-axis 
+    // Defines a 3D rotation along the X-axis
     // -------------------------
     .rotateX(@deg:35)
     {
         .transform(rotateX(~"@{deg}deg"));
     }
 
-    // Defines a 3D rotation along the Y-axis 
+    // Defines a 3D rotation along the Y-axis
     // -------------------------
     .rotateY(@deg:35)
     {
         .transform(rotateY(~"@{deg}deg"));
     }
 
-    // Defines a 3D rotation along the Z-axis 
+    // Defines a 3D rotation along the Z-axis
     // -------------------------
     .rotateZ(@deg:35)
     {
@@ -913,35 +913,35 @@
         .transform(rotate3d(@x, @y, @z, ~"@{deg}deg"));
     }
 
-    // Defines a 2D scale transformation 
+    // Defines a 2D scale transformation
     // -------------------------
     .scale(@x:1, @y:1)
     {
         .transform(scale(@x, @y));
     }
 
-    // Defines a 3D scale transformation 
+    // Defines a 3D scale transformation
     // -------------------------
     .scale3D(@x:1, @y:1, @z:1)
     {
         .transform(scale3d(@x, @y, @z));
     }
 
-    // Defines a 2D skew transformation along the X- and the Y-axis 
+    // Defines a 2D skew transformation along the X- and the Y-axis
     // -------------------------
     .skew(@angleX:35, @angleY:35)
     {
         .transform(skew(~"@{angleX}deg", ~"@{angleY}deg"));
     }
 
-    // Defines a 2D translation 
+    // Defines a 2D translation
     // -------------------------
     .translate(@x:10px, @y:10px)
     {
         .transform(translate(@x, @y));
     }
 
-    // Defines a 3D translation 
+    // Defines a 3D translation
     // -------------------------
     .translate3D(@x:10px, @y:10px, @z:10px)
     {
@@ -967,6 +967,28 @@
     .translateZ(@z:10px)
     {
         .transform(translateZ(@z));
+    }
+}
+
+// Animation keyframes
+// ----------------
+.keyframes(@name, @rules)
+{
+    @-webkit-keyframes @name
+    {
+      @rules();
+    }
+    @-moz-keyframes @name
+    {
+      @rules();
+    }
+    @-o-keyframes @name
+    {
+      @rules();
+    }
+    @keyframes @name
+    {
+      @rules();
     }
 }
 
@@ -1005,8 +1027,8 @@
     dl, dt, dd, ol, ul, li,
     fieldset, form, label, legend,
     table, caption, tbody, tfoot, thead, tr, th, td,
-    article, aside, canvas, details, embed, 
-    figure, figcaption, footer, header, hgroup, 
+    article, aside, canvas, details, embed,
+    figure, figcaption, footer, header, hgroup,
     menu, nav, output, ruby, section, summary,
     time, mark, audio, video {
         margin: 0;
@@ -1016,7 +1038,7 @@
         font: inherit;
         vertical-align: baseline;
     }
-    article, aside, details, figcaption, figure, 
+    article, aside, details, figcaption, figure,
     footer, header, hgroup, menu, nav, section {
         display: block;
     }
